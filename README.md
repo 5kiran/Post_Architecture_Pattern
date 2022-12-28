@@ -6,8 +6,6 @@ Post 아키텍쳐 패턴
 ```
 .
 ├── app.js
-├── server.js
-├── socket.js
 ├── routes
 │   ├── index.js
 │   └── posts.routes.js
