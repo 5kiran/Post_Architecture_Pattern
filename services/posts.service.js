@@ -73,14 +73,24 @@ class PostService {
   deletePost = async (postId, password) => {
     const postInfo = await this.checkPassword(postId, password);
 
-    console.log(postInfo.errorMessage)
+    console.log(postInfo.errorMessage);
     if (postInfo.errorMessage) {
-      return { errorMessage : postInfo.errorMessage };
+      return { errorMessage: postInfo.errorMessage };
     }
 
     await this.postRepository.deletePost(postInfo);
 
-    return { Message : "삭제 완료" };
+    return { Message: "삭제 완료" };
+  };
+
+  findPost = async (postId) => {
+    const postInfo = await this.postRepository.findOnePost(postId);
+
+    if (!postInfo) {
+      return { errorMessage : "존재하지 않는 게시글 입니다" }
+    }
+
+    return postInfo
   }
 }
 

@@ -40,9 +40,10 @@ class PostsController {
 
     if (modifyPostData.Message) {
       return res.json({ Message: modifyPostData.Message });
-    } 
-    else {
-      return res.status(412).json({ errorMessage: modifyPostData.errorMessage });
+    } else {
+      return res
+        .status(412)
+        .json({ errorMessage: modifyPostData.errorMessage });
     }
   };
 
@@ -53,10 +54,23 @@ class PostsController {
     const deletePostData = await this.postService.deletePost(postId, password);
 
     if (deletePostData.Message) {
-      return res.json({ Message : deletePostData.Message });
+      return res.json({ Message: deletePostData.Message });
+    } else {
+      return res
+        .status(412)
+        .json({ errorMessage: deletePostData.errorMessage });
     }
-    else {
-      return res.status(412).json({ errorMessage : deletePostData.errorMessage })
+  };
+
+  findPost = async (req, res, next) => {
+    const { postId } = req.params;
+
+    const postInfo = await this.postService.findPost(postId);
+    
+    if (postInfo.errorMessage) {
+      return res.status(412).json({ errorMessage : postInfo.errorMessage})
+    } else {
+      return res.json({postInfo})
     }
   }
 }
