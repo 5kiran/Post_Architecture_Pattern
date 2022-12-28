@@ -9,5 +9,6 @@ const postsController = new PostsController();
 router.get("/", postsController.getPosts);
 router.post("/", postsController.createPost);
 router.put("/:postId", postsController.modifyPost);
+router.delete("/:postId", postsController.deletePost);
 
 module.exports = router;

@@ -31,6 +31,10 @@ class PostRepository {
   modifyPost = async (modifyPost) => {
     await modifyPost.save();
   };
+
+  deletePost = async (postInfo) => {
+    await postInfo.destroy();
+  };
 }
 
 module.exports = PostRepository;

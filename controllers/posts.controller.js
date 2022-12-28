@@ -39,11 +39,26 @@ class PostsController {
     );
 
     if (modifyPostData.Message) {
-      res.json({ Message: modifyPostData.Message });
-    } else {
-      res.status(400).json({ errorMessage: modifyPostData.errorMessage });
+      return res.json({ Message: modifyPostData.Message });
+    } 
+    else {
+      return res.status(412).json({ errorMessage: modifyPostData.errorMessage });
     }
   };
+
+  deletePost = async (req, res, next) => {
+    const { password } = req.body;
+    const { postId } = req.params;
+
+    const deletePostData = await this.postService.deletePost(postId, password);
+
+    if (deletePostData.Message) {
+      return res.json({ Message : deletePostData.Message });
+    }
+    else {
+      return res.status(412).json({ errorMessage : deletePostData.errorMessage })
+    }
+  }
 }
 
 module.exports = PostsController;

@@ -69,6 +69,19 @@ class PostService {
 
     return { Message: "수정 완료" };
   };
+
+  deletePost = async (postId, password) => {
+    const postInfo = await this.checkPassword(postId, password);
+
+    console.log(postInfo.errorMessage)
+    if (postInfo.errorMessage) {
+      return { errorMessage : postInfo.errorMessage };
+    }
+
+    await this.postRepository.deletePost(postInfo);
+
+    return { Message : "삭제 완료" };
+  }
 }
 
 module.exports = PostService;
