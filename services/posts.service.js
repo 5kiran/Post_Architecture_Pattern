@@ -1,9 +1,10 @@
 // services/posts.service.js
 
 const PostRepository = require("../repositories/posts.repository");
+const { Posts } = require("../models/index.js") // DB Mocking
 
 class PostService {
-  postRepository = new PostRepository();
+  postRepository = new PostRepository(Posts); //MOCK
 
   findAllPost = async () => {
     // 저장소(Repository)에게 데이터를 요청합니다.
@@ -46,8 +47,12 @@ class PostService {
     };
   };
 
-  checkPassword = async (postId, password) => {
+  checkPost = async (postId, password) => {
     const postInfo = await this.postRepository.findOnePost(postId);
+    if (!postInfo) {
+      return {errorMessage : "게시물이 존재하지 않습니다"}
+    }
+
     if (postInfo.password !== password) {
       return { errorMessage: "패스워드를 다시 확인해주세요." };
     }
@@ -56,7 +61,7 @@ class PostService {
   };
 
   modifyPost = async (postId, password, title, content) => {
-    const postInfo = await this.checkPassword(postId, password);
+    const postInfo = await this.checkPost(postId, password);
     if (postInfo.errorMessage) {
       return { errorMessage: postInfo.errorMessage };
     }
@@ -71,9 +76,8 @@ class PostService {
   };
 
   deletePost = async (postId, password) => {
-    const postInfo = await this.checkPassword(postId, password);
+    const postInfo = await this.checkPost(postId, password);
 
-    console.log(postInfo.errorMessage);
     if (postInfo.errorMessage) {
       return { errorMessage: postInfo.errorMessage };
     }

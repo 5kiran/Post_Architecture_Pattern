@@ -16,6 +16,9 @@ class PostsController {
   createPost = async (req, res, next) => {
     const { nickname, password, title, content } = req.body;
 
+    if (!nickname || !password || !title) {
+      return res.status(400).json({errorMessage : "내용을 입력해주세요"})
+    }
     // 서비스 계층에 구현된 createPost 로직을 실행합니다.
     const createPostData = await this.postService.createPost(
       nickname,
